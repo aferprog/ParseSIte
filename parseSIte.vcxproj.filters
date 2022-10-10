@@ -41,6 +41,9 @@
     <ClInclude Include="afer_search_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="prettyPrint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="parseSIte.rc">

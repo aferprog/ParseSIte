@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="AferFormat.h" />
     <ClInclude Include="AferGumboNode.h" />
+    <ClInclude Include="prettyPrint.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="afer_search_options.h" />
   </ItemGroup>

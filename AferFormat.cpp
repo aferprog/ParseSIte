@@ -1,8 +1,7 @@
 #include "AferFormat.h"
 #include <algorithm>
 #include <iostream>
-
-
+#include "prettyPrint.h"
 
 void AferFormat::find_all_by_recursion_help(std::vector<AferGumboNode>& res, const afer_search_options& format, const AferGumboNode& node, int deep) {
 
@@ -63,6 +62,9 @@ void AferFormat::build_entity(std::map<std::string, std::string>& entity, std::v
 GumboOutput* AferFormat::open_source(std::string_view html_doc)
 {
     
+    /*GumboOptions options = kGumboDefaultOptions;
+    GumboOutput* output = gumbo_parse_with_options(&options, html_doc.data(), html_doc.length());
+    return output;*/
     return gumbo_parse_with_options(
         &kGumboDefaultOptions, html_doc.data(), html_doc.length());
 }
@@ -130,6 +132,9 @@ std::vector<AferGumboNode> AferFormat::find_entities_roots(AferGumboNode& format
 
 std::vector<std::map<std::string, std::string>> AferFormat::get_formated_enteties(const GumboOutput* format_output, const GumboOutput* root_output)
 {
+    //std::cout<<prettyprint(format_output->root, 0, "  ");
+    //std::cout<<prettyprint(root_output->root, 0, "  ");
+
     AferGumboNode format_root(format_output->root, true);
     AferGumboNode root(root_output->root);
 
@@ -140,11 +145,11 @@ std::vector<std::map<std::string, std::string>> AferFormat::get_formated_entetie
     for (int i = 0; i < entities.size(); ++i)
         build_entity(temp_entities[i], { format_root }, entities[i]);
     
-    auto border = std::remove_if(temp_entities.begin(), temp_entities.end(), [parameters_count](auto& entity) {
+    auto border = std::remove_if(temp_entities.begin(), temp_entities.end(), [parameters_count](const auto& entity) {
         return entity.size() != parameters_count;
         });
     temp_entities.erase(border, temp_entities.end());
-
+    
     return temp_entities;
 }
 
