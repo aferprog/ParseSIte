@@ -43,7 +43,7 @@ bool afer_search_options::check(const AferGumboNode& node) const
         if (node.getType() != GUMBO_NODE_TEXT)
             return false;
         
-        return attributes.contains("text") && attributes.at("text")==node.getText();
+        return !to_get.empty()||(!attributes.empty() && attributes.at("text") == node.getText());
         
     case GumboNodeType::GUMBO_NODE_ELEMENT: {
         bool check = (node.getTag() == tag && node.getType() == type);

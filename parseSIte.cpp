@@ -1,4 +1,4 @@
-#include <fstream>
+﻿#include <fstream>
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -24,14 +24,14 @@ std::string loadData(std::string filename) {
 
 int main(int argc, char** argv) {
     
-    std::string page = loadData("./Examples/Books_in_amazon/page.html");
-    std::string format= loadData("./Examples/Books_in_amazon/format.html");
+    std::string page = loadData("./html_tests/sinodic_monthe.html");
+    std::string format= loadData("./parsing_format/sinodic_monthe.html");
 
     
 
     auto books = AferFormat().get_formated_enteties(format.c_str(), page.c_str());
-    for (const auto& book : books) {
-        for (const auto& pair : book)
+    for (const auto& day : books) {
+        for (const auto& pair : day)
             std::cout << pair.first << " = " << pair.second << std::endl;
         std::cout << std::endl;
     }
