@@ -20,7 +20,7 @@ std::vector<AferGumboNode> AferFormat::find_all_by_recursion(afer_search_options
     return res;
 }
 
-void AferFormat::build_entity(std::map<std::string, std::string>& entity, std::vector<AferGumboNode> whatFind, const AferGumboNode& node)
+void AferFormat::build_entity(AferEntity& entity, std::vector<AferGumboNode> whatFind, const AferGumboNode& node)
 {
     bool is_node_found = false;
     for (auto& format : whatFind) {
@@ -53,7 +53,7 @@ void AferFormat::build_entity(std::map<std::string, std::string>& entity, std::v
             break;
         }
     }
-    if (!is_node_found) {
+    if (!is_node_found && !whatFind.empty()) {
         for (auto& child : node.getChildren())
             build_entity(entity, whatFind, child);
     }
@@ -130,7 +130,7 @@ std::vector<AferGumboNode> AferFormat::find_entities_roots(AferGumboNode& format
     return *next_vect;
 }
 
-std::vector<std::map<std::string, std::string>> AferFormat::get_formated_enteties(const GumboOutput* format_output, const GumboOutput* root_output)
+std::vector<AferEntity> AferFormat::get_formated_enteties(const GumboOutput* format_output, const GumboOutput* root_output)
 {
     //std::cout<<prettyprint(format_output->root, 0, "  ");
     //std::cout<<prettyprint(root_output->root, 0, "  ");
@@ -145,15 +145,15 @@ std::vector<std::map<std::string, std::string>> AferFormat::get_formated_entetie
     for (int i = 0; i < entities.size(); ++i)
         build_entity(temp_entities[i], { format_root }, entities[i]);
     
-    auto border = std::remove_if(temp_entities.begin(), temp_entities.end(), [parameters_count](const auto& entity) {
+    /*auto border = std::remove_if(temp_entities.begin(), temp_entities.end(), [parameters_count](const auto& entity) {
         return entity.size() != parameters_count;
         });
     temp_entities.erase(border, temp_entities.end());
-    
+    */
     return temp_entities;
 }
 
-std::vector<std::map<std::string, std::string>> AferFormat::get_formated_enteties(const std::string_view format, const std::string_view html_page)
+std::vector<AferEntity> AferFormat::get_formated_enteties(std::string_view format, std::string_view html_page)
 {
     GumboOutput* format_output = open_source(format);
     GumboOutput* page_output = open_source(html_page);
